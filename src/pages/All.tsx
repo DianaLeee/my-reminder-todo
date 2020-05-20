@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import styled from "styled-components";
 
 import TodoItem from "../components/TodoItem";
@@ -9,14 +9,32 @@ const TodoListContainer = styled.div`
   justify-content: center;
   align-items: center;
   flex-direction: column;
+
+  padding: 10px;
 `;
 
-const All = () => {
+const All = (props: any) => {
+  const [todos, setTodos]: any = useState(props.todos);
+
+  const handleToggle = (idx: any) => {
+    props.onClick(idx);
+  };
+
   return (
     <TodoListContainer>
-      {todoItems.map((todo: ITodo, idx) => (
-        <TodoItem {...todo} />
-      ))}
+      {todos
+        .filter((todo: ITodo) => {
+          if (props.navState === "Active") {
+            return !todo.done;
+          }
+          if (props.navState === "Done") {
+            return todo.done;
+          }
+          return true;
+        })
+        .map((todo: ITodo) => (
+          <TodoItem {...todo} key={todo.id} onSomething={props.onClick} onClick={handleToggle} />
+        ))}
     </TodoListContainer>
   );
 };
