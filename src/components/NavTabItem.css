@@ -1,0 +1,9 @@
+.active div.border {
+  width: 100%;
+  height: 10%;
+  background-color: #6665ff;
+}
+
+.active div.text {
+  color: #6665ff;
+}
