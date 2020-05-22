@@ -1,5 +1,6 @@
-import React, { useState } from "react";
+import React from "react";
 import styled from "styled-components";
+
 import NavTabItem from "./NavTabItem";
 import { navItems, INavigation } from "../constants/navigation";
 
@@ -23,7 +24,7 @@ const NavTab = () => {
     <NavTabContainer>
       <ListContainer>
         {navItems.map((item: INavigation, idx: number) => (
-          <NavTabItem key={idx} text={item.title} path={item.path} />
+          <NavTabItem key={idx} title={item.title} path={item.path} />
         ))}
       </ListContainer>
     </NavTabContainer>
