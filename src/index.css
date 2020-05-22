@@ -6,4 +6,11 @@ body {
   font-family: "Nanum Gothic", "Roboto", sans-serif;
   box-sizing: border-box;
   color: #2c3c53;
+  background-color: #f9fafb;
+}
+
+button {
+  border: 0;
+  outline: 0;
+  background: none;
 }
