@@ -3,9 +3,9 @@ import { BrowserRouter, Route } from "react-router-dom";
 import styled from "styled-components";
 
 import TodoList from "./pages/TodoList";
-import NavTab from "./components/NavTab";
-import AddTodoItem from "./components/AddTodoItem";
-import IconButton from "./components/IconButton";
+import NavTab from "./components/Navigation/NavTab";
+import AddTodoItem from "./components/Todo/AddTodoItem";
+import IconButton from "./components/Todo/IconButton";
 
 import { HEADER } from "./constants/text";
 import { INavigation, navItems } from "./constants/navigation";

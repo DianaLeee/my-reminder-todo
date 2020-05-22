@@ -3,7 +3,7 @@ import styled from "styled-components";
 import { NavLink } from "react-router-dom";
 
 import "./NavTabItem.css";
-import { THEME } from "../constants/color";
+import { THEME } from "../../constants/color";
 
 interface INavTabItemProps {
   key: number;

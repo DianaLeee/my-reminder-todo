@@ -2,8 +2,8 @@ import React from "react";
 import styled from "styled-components";
 
 import IconButton from "./IconButton";
-import { ITodo } from "../constants/interface";
-import { THEME } from "../constants/color";
+import { ITodo } from "../../constants/interface";
+import { THEME } from "../../constants/color";
 
 interface ITodoItemProps {
   key: number;

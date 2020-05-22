@@ -2,7 +2,7 @@ import React from "react";
 import styled from "styled-components";
 
 import NavTabItem from "./NavTabItem";
-import { navItems, INavigation } from "../constants/navigation";
+import { navItems, INavigation } from "../../constants/navigation";
 
 const NavTabContainer = styled.div`
   width: inherit;

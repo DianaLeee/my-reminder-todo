@@ -4,11 +4,11 @@ import styled from "styled-components";
 import CircularProgress from "@material-ui/core/CircularProgress";
 import { withStyles } from "@material-ui/core/styles";
 
-import { storage } from "../firebase";
+import { storage } from "../../firebase";
 
 import IconButton from "./IconButton";
-import { CONTENT } from "../constants/text";
-import { THEME } from "../constants/color";
+import { CONTENT } from "../../constants/text";
+import { THEME } from "../../constants/color";
 
 interface IAddTodoItemProps {
   onCreate: (data: { text: string; img: string }) => void;

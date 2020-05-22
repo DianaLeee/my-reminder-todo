@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import styled from "styled-components";
 
-import TodoItem from "../components/TodoItem";
+import TodoItem from "../components/Todo/TodoItem";
 import { ITodo } from "../constants/interface";
 
 interface ITodoListProps {
