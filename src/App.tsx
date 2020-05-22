@@ -1,11 +1,18 @@
-import React, { useState } from "react";
-import NavTab from "./components/NavTab";
-import { All, Done, Active } from "./pages";
+import React, { useState, useEffect } from "react";
 import { BrowserRouter, Route } from "react-router-dom";
 import styled from "styled-components";
-import { ITodo, todoItems } from "./constants/todo";
 
-const TopHeaderWrapper = styled.div`
+import TodoList from "./pages/TodoList";
+import NavTab from "./components/NavTab";
+import AddTodoItem from "./components/AddTodoItem";
+import IconButton from "./components/IconButton";
+
+import { HEADER } from "./constants/text";
+import { INavigation, navItems } from "./constants/navigation";
+import { THEME } from "./constants/color";
+import { ITodo } from "./constants/interface";
+
+const HeaderWrapper = styled.div`
   width: 100vw;
   height: 10vh;
 
@@ -16,34 +23,46 @@ const TopHeaderWrapper = styled.div`
   position: fixed;
   top: 0;
   z-index: 100;
-  background: #f9fafb;
 
   font-size: 1.5rem;
   letter-spacing: 0.1rem;
+
+  background: ${THEME.palette.mainBackground};
 `;
 
-const NavTabWrapper = styled.div`
+const NavigationWrapper = styled.div`
   width: 100vw;
   height: 5vh;
 
   position: fixed;
   top: 10vh;
   z-index: 100;
-  background: #f9fafb;
+
+  background: ${THEME.palette.mainBackground};
 `;
 
-const MainContentWrapper = styled.div`
-  height: 85vh;
+const ContentWrapper = styled.div`
   margin-top: 15vh;
-  background: #f9fafb;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+
+  background: ${THEME.palette.mainBackground};
+`;
+
+const ButtonWrapper = styled.div`
+  margin: 20px 0;
 `;
 
 const App = () => {
-  const [todos, setTodos]: any = useState(todoItems);
+  const [todos, setTodos] = useState<ITodo[]>([]);
+  const [isEdit, setIsEdit] = useState(false);
 
-  const handleClick = (idx: any) => {
-    console.log(idx);
-    const index = todos.findIndex((todo: any) => todo.id === idx);
+  // Toggle Todo item
+  const handleDone = (idx: number) => {
+    const index = todos.findIndex((todo: ITodo) => todo.id === idx);
     const selected = todos[index];
     const nextTodos = [...todos];
 
@@ -55,17 +74,72 @@ const App = () => {
     setTodos(nextTodos);
   };
 
+  // Create new Todo item
+  const handleCreate = (data: { text: string; img: string }) => {
+    setIsEdit(false);
+
+    // Get last index of array
+    let idx;
+    try {
+      idx = todos.slice(-1)[0].id;
+    } catch (e) {
+      idx = 0;
+    }
+
+    setTodos(
+      todos.concat({
+        id: ++idx,
+        text: data.text,
+        done: false,
+        img: data.img,
+      })
+    );
+  };
+
+  // Delete Todo item
+  const handleDelete = (idx: number) => {
+    const newTodos = todos.filter((todo: ITodo) => todo.id !== idx);
+    setTodos(newTodos);
+  };
+
+  const handleOnClick = () => {
+    setIsEdit(true);
+  };
+
+  useEffect(() => {
+    // Get data from localstorage
+    const data = localStorage.getItem("todos");
+    if (data) {
+      setTodos(JSON.parse(data));
+    }
+  }, []);
+
+  useEffect(() => {
+    // Update data in localstorage
+    localStorage.setItem("todos", JSON.stringify(todos));
+  }, [todos]);
+
   return (
     <BrowserRouter>
-      <TopHeaderWrapper>My Reminder</TopHeaderWrapper>
-      <NavTabWrapper>
+      <HeaderWrapper>{HEADER.title}</HeaderWrapper>
+      <NavigationWrapper>
         <NavTab />
-      </NavTabWrapper>
-      <MainContentWrapper>
-        <Route exact path="/" component={() => <All todos={todos} navState="All" onClick={handleClick} />} />
-        <Route path="/active" component={() => <All todos={todos} navState="Active" onClick={handleClick} />} />
-        <Route path="/done" component={() => <All todos={todos} navState="Done" onClick={handleClick} />} />
-      </MainContentWrapper>
+      </NavigationWrapper>
+      <ContentWrapper>
+        {todos === undefined
+          ? ""
+          : navItems.map((item: INavigation, idx: number) => (
+              <Route key={idx} path={item.path} exact component={() => <TodoList todos={todos} navState={item.state} onToggle={handleDone} onDelete={handleDelete} />} />
+            ))}
+
+        {isEdit ? (
+          <AddTodoItem onCreate={handleCreate} />
+        ) : (
+          <ButtonWrapper>
+            <IconButton onClick={handleOnClick} icon="ADD" />
+          </ButtonWrapper>
+        )}
+      </ContentWrapper>
     </BrowserRouter>
   );
 };
